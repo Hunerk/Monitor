@@ -31,10 +31,14 @@ jobs:
           pip install pyppeteer aiofiles requests
           pip install --upgrade pyppeteer
 
-      - name: 运行登录脚本
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
-        run: |
-          python login_script.py
+      - name: List installed packages
+      run: pip list
+
+    - name: Test Telegram import
+      run: python -c "from telegram import Bot"
+
+    - name: Run check script
+      run: python check_ct8.py
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
