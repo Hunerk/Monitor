@@ -10,7 +10,7 @@ chat_id = os.environ['TELEGRAM_CHAT_ID']
 
 # Function to check CT8.PL registration status
 def check_registration_status():
-    url = 'https://ct8.pl/api/registration-status'  # 替换为实际的 API URL 或页面 URL
+    url = 'https://www.ct8.pl/'  # 替换为实际的 API URL 或页面 URL
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
