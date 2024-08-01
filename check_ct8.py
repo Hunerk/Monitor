@@ -2,14 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import datetime
-import telebot
+from telegram import Bot
 
 # Telegram bot token and chat ID from environment variables
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
 # Initialize the Telegram bot
-bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 def check_registration_status():
     url = 'https://www.ct8.pl/'  # 替换为实际的 API URL 或页面 URL
@@ -30,7 +30,7 @@ def check_registration_status():
         raise ValueError("Could not find the total accounts element with the provided selector.")
 
 def send_telegram_message(message):
-    bot.send_message(TELEGRAM_CHAT_ID, message)
+    bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
 def main():
     total_accounts = check_registration_status()
