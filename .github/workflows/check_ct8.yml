@@ -1,14 +1,12 @@
-name: Check CT8 Registration
+name: Monitor CT8.PL Registration
 
 on:
   schedule:
     - cron: '0 * * * *' # 每小时运行一次
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  check-registration:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,11 +21,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 python-telegram-bot
+        pip install requests beautifulsoup4 pyTelegramBotAPI
 
-    - name: Run script
+    - name: Run check script
+      run: python check_ct8.py
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: |
-        python check_ct8.py
