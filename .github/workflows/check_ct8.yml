@@ -26,5 +26,5 @@ jobs:
     - name: Run check script
       run: python check_ct8.py
       env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.7387475722:AAENTZ7fv7sc-iVJc9ht2W_vU2uBPz_Bw3U }}
-        TELEGRAM_CHAT_ID: ${{ secrets.716606464 }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
