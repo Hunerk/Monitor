@@ -3,7 +3,7 @@ name: Monitor CT8.PL Registration
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *' # 每小时运行一次
+    - cron: '*/5 * * * *' # 每5分钟运行一次
   push:
     branches:
       - main
