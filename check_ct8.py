@@ -10,15 +10,23 @@ chat_id = os.environ['TELEGRAM_CHAT_ID']
 
 # Function to check CT8.PL registration status
 def check_registration_status():
-    url = 'https://ct8.pl/registration_page'  # 替换为实际的注册页面 URL
+    url = 'https://ct8.pl/api/registration-status'  # 替换为实际的 API URL 或页面 URL
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
+
+    # 调试输出 HTML 内容
+    print(soup.prettify())
+
+    # 使用实际的选择器
+    element = soup.find('span', id='total-accounts')
     
-    # 根据页面结构找到账户总数信息
-    total_accounts_text = soup.find('selector').text  # 替换为实际的选择器
-    total_accounts = int(total_accounts_text.split(':')[-1].strip())
-    
-    return total_accounts
+    if element:
+        total_accounts_text = element.text
+        # 从文本中提取数字
+        total_accounts = int(total_accounts_text.split('/')[0].strip())
+        return total_accounts
+    else:
+        raise ValueError("Could not find the total accounts element with the provided selector.")
 
 # Function to send Telegram notification
 def send_telegram_message(message):
