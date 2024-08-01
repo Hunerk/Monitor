@@ -1,36 +1,40 @@
 name: Monitor CT8.PL Registration
 
 on:
-  schedule:
-    - cron: '0 * * * *' # 每小时运行一次
   workflow_dispatch:
-
+  schedule:
+     - cron: '0 * * * *' # 每小时运行一次
+  push:
+    branches:
+      - main
 jobs:
-  check:
+  login:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout 仓库代码
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.12'
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # 设置你希望使用的 Python 版本，建议使用稳定版本
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 python-telegram-bot==21.4
+      - name: Create accounts.json from environment variable
+        run: echo "$ACCOUNTS_JSON" > accounts.json
+        env:
+            ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}  # 从GitHub Secrets中获取环境变量
 
-    - name: List installed packages
-      run: pip list
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyppeteer aiofiles requests
+          pip install --upgrade pyppeteer
 
-    - name: Test Telegram import
-      run: python -c "from telegram import Bot"
-
-    - name: Run check script
-      run: python check_ct8.py
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: 运行登录脚本
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
+        run: |
+          python login_script.py
