@@ -12,7 +12,7 @@ TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
 def check_registration_status():
-    url = 'https://www.ct8.pl/' # 替换为实际的 API URL 或页面 URL
+    url = 'https://www.ct8.pl/'  # 替换为实际的 API URL 或页面 URL
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
