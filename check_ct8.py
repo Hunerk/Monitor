@@ -52,7 +52,12 @@ def main():
     try:
         total_accounts = check_registration_status()
         current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        message = f"☯️查询时间: {current_time}\n☯️账户总数：{total_accounts} / 5000\n☯️请注意️注意：如果账户总数小于5000请及时注册。"
+        message = (
+            f"☯️www.️CT8.PL注册查询通知\n"
+            f"☯️查询时间: {current_time}\n"
+            f"☯️CT8 账户总数：{total_accounts} / 5000\n"
+            f"☯️请注意：如果任何网站的账户总数小于5000请及时注册。"
+        )
         send_telegram_message(message)
     except Exception as e:
         send_telegram_message(f"脚本运行出错: {e}")
